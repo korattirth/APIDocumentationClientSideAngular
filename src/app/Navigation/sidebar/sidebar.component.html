@@ -1,0 +1,42 @@
+
+<mat-sidenav-container fxHide.lt-xs>
+  <mat-sidenav  mode="side" #sidenav opened role="navigation">
+    <mat-nav-list >
+      <a  mat-list-item *ngFor="let a of paths; let index">{{ a }}</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-navbar></app-navbar>
+    {{jsonData && jsonData.openapi}}
+    <section style="padding: 10px 25px;">
+      <div *ngFor="let path of paths; let index">
+        <div *ngFor="let type of reqType">
+          <mat-tab-group  *ngIf="validateReqType(type,path)" style="height: 90vh;">
+            <mat-tab label="Overview">
+              <ng-template matTabContent>
+                <app-overview [path] = "path" [reqType] = 'type' ></app-overview>
+              </ng-template>
+            </mat-tab>
+            <mat-tab label="Parameter/Headers">
+              <ng-template matTabContent>
+                <app-parameter-headers [path] = "path" [reqType] = 'type'></app-parameter-headers>
+              </ng-template>
+            </mat-tab>
+            <mat-tab label="Request/Response">
+              <ng-template matTabContent>
+                <app-request-response [path] = "path" [reqType] = 'type'></app-request-response>
+              </ng-template>
+            </mat-tab>
+            <mat-tab label="Try It Out" >
+              <ng-template matTabContent>
+                <div fxFlex fxLayout fxLayoutAlign="center center">
+                  <img src="https://www.webinsight.in/wp-content/uploads/2021/09/IMG_20210820_091858.jpg" height="auto" width="250px" />
+                </div>
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    </section>
+  </mat-sidenav-content>
+</mat-sidenav-container>
