@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-//import { Response } from 'src/app/model/paths';
 import {
   GetResponseContent,
   GetResponseDescription,
@@ -10,7 +9,7 @@ import {
   RequestBody,
   GetRequestBodyContent,
   GetRequestBodyContentDetail,
-} from 'src/app/model/responseModel';
+} from 'src/app/model/response-requestModel';
 import { GetDataService } from 'src/app/service/get-data.service';
 
 @Component({

@@ -8,5 +8,11 @@ mat-sidenav-content {
 mat-sidenav {
   width: 300px;
   background-color: #23395d;
-  color: white !important;
+}
+
+.content {
+  height: 86vh;
+  background-color: #F0F0F0;
+  margin: 15px 0px;
+  padding: 0px 15px;
 }

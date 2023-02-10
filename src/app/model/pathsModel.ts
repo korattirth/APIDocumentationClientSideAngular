@@ -1,4 +1,4 @@
-import { RequestBody, Response } from "./responseModel";
+import { RequestBody, Response } from "./response-requestModel";
 
 export interface Paths {
   [key: string]: RequestType;
@@ -25,7 +25,7 @@ export class GetRequestType {
 export interface MethodData {
   description: string;
   operationId: string;
-  parameters: any;
+  parameters: Parameter[];
   requestBody: RequestBody;
   responses: Response;
   summary: string;

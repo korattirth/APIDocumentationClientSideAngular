@@ -16,17 +16,26 @@ export class GetResponseDescription {
 export interface Response {
   [key: string]: ResponseDetails;
 }
+export interface ResponseDetails {
+  content: ResponseContent;
+  description: string;
+}
+export interface ResponseContent{
+  [key: string]: ResponseContentDetail;
+}
+export interface ResponseContentDetail{
+  example: string;
+  schema: ResponseSchema;  
+}
+export interface ResponseSchema {
+  $ref: string;
+}
 
 export class GetResponse {
   response: Response;
   constructor(data: Response) {
     this.response = data;
   }
-}
-
-export interface ResponseDetails {
-  content: ResponseContent;
-  description: string;
 }
 
 export class GetResponseDetails {
@@ -36,20 +45,11 @@ export class GetResponseDetails {
   }
 }
 
-export interface ResponseContent{
-    [key: string]: ResponseContentDetail;
-}
-
 export class GetResponseContent{
     responseContent: ResponseContent;
   constructor(data: ResponseContent) {
         this.responseContent = data;
     }
-}
-
-export interface ResponseContentDetail{
-    example: string;
-    schema: ResponseSchema;  
 }
 
 export class GetResponseContentDetail{
@@ -59,9 +59,6 @@ export class GetResponseContentDetail{
     }
 }
 
-export interface ResponseSchema {
-    $ref: string;
-}
 
 export interface RequestBody{
   [key: string]: RequestBodyContent;

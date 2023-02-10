@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Parameter } from 'src/app/model/paths';
+import { Parameter } from 'src/app/model/pathsModel';
 import { GetDataService } from 'src/app/service/get-data.service';
 
 @Component({

@@ -1,36 +1,42 @@
-
 <mat-sidenav-container fxHide.lt-xs>
-  <mat-sidenav  mode="side" #sidenav opened role="navigation">
-    <mat-nav-list >
-      <a  mat-list-item *ngFor="let a of pathList; let index">{{ a }}</a>
+  <mat-sidenav mode="side" #sidenav opened role="navigation">
+    <mat-nav-list>
+      <a mat-list-item></a>
+      <div *ngFor="let path of pathList; let i = index">
+        <div *ngFor="let type of reqType ; let j = index">
+          <div *ngIf="validateReqType(type,path)">
+            <a style="font-weight: 500;" mat-list-item href="#{{i}}{{j}}"><span style="color: white;">{{ getMethodName(path,type) }}</span></a>
+          </div>
+        </div>
+      </div>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <app-navbar></app-navbar>
-    {{jsonData && jsonData.openapi}}
     <section style="padding: 10px 25px;">
-      <div *ngFor="let path of pathList; let index">
-        <div *ngFor="let type of reqType">
-          <mat-tab-group  *ngIf="validateReqType(type,path)" style="height: 90vh;">
+      <div *ngFor="let path of pathList; let i = index">
+        <div *ngFor="let type of reqType ; let j = index">
+          <mat-tab-group *ngIf="validateReqType(type,path)" id="{{i}}{{j}}" class="content">
             <mat-tab label="Overview">
               <ng-template matTabContent>
-                <app-overview [path] = "path" [reqType] = 'type' ></app-overview>
+                <app-overview [path]="path" [reqType]='type'></app-overview>
               </ng-template>
             </mat-tab>
             <mat-tab label="Parameter/Headers">
               <ng-template matTabContent>
-                <app-parameter-headers [path] = "path" [reqType] = 'type'></app-parameter-headers>
+                <app-parameter-headers [path]="path" [reqType]='type'></app-parameter-headers>
               </ng-template>
             </mat-tab>
             <mat-tab label="Request/Response">
               <ng-template matTabContent>
-                <app-request-response [path] = "path" [reqType] = 'type'></app-request-response>
+                <app-request-response [path]="path" [reqType]='type'></app-request-response>
               </ng-template>
             </mat-tab>
-            <mat-tab label="Try It Out" >
+            <mat-tab label="Try It Out">
               <ng-template matTabContent>
                 <div fxFlex fxLayout fxLayoutAlign="center center">
-                  <img src="https://www.webinsight.in/wp-content/uploads/2021/09/IMG_20210820_091858.jpg" height="auto" width="250px" />
+                  <img src="https://www.webinsight.in/wp-content/uploads/2021/09/IMG_20210820_091858.jpg" height="auto"
+                    width="250px" />
                 </div>
               </ng-template>
             </mat-tab>

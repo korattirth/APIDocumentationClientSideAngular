@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { GetRequestType, RequestType } from 'src/app/model/paths';
+import { JsonData } from 'src/app/model/mainModel';
+import { Paths } from 'src/app/model/pathsModel';
 import { GetDataService } from 'src/app/service/get-data.service';
 
 @Component({
@@ -8,9 +9,10 @@ import { GetDataService } from 'src/app/service/get-data.service';
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit {
-  jsonData!: any;
+  jsonData!: JsonData;
   pathList: string[] = [];
-  reqType: string[] = ['get','post','put','delete'];
+  reqType: string[] = ['get', 'post', 'put', 'delete'];
+  paths!: Paths;
 
   constructor(private getData: GetDataService) {}
 
@@ -30,7 +32,12 @@ export class SidebarComponent implements OnInit {
   }
 
   private getPath() {
-    this.pathList = this.getData.getPathList();
+    this.paths = this.getData.getPaths()
+    this.pathList = Object.keys(this.paths);
+  }
+
+  getMethodName(path: string, reqType: string) {
+    return this.paths[path][reqType].operationId
   }
 
   validateReqType(reqType: string, path: string) {

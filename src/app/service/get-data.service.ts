@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API } from '../util/value';
 import { Observable } from 'rxjs';
-import { GetMethodData, GetParameter, GetPaths, GetRequestType, Paths } from '../model/paths';
-import { GetRequestBody, GetResponse, GetResponseContent, GetResponseDetails } from '../model/responseModel';
+import { GetMethodData, GetParameter, GetPaths, GetRequestType, Paths } from '../model/pathsModel';
+import { GetRequestBody, GetResponse, GetResponseContent, GetResponseDetails } from '../model/response-requestModel';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class GetDataService {
   unSubscribejsonData!: Observable<string>;
   subscribejsonData: any;
   paths!: Paths;
-  pathList: string[] = [];
+
 
   constructor(private _httpClient: HttpClient) { }
 
@@ -43,10 +43,6 @@ export class GetDataService {
   getPaths() {
     this.paths = new GetPaths(this.getData().paths).allPath;
     return this.paths
-  }
-
-  getPathList() {
-    return this.pathList = Object.keys(this.getPaths())
   }
 
   getRequestTypeList(path:string) {
