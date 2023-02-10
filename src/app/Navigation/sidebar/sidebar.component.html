@@ -2,14 +2,14 @@
 <mat-sidenav-container fxHide.lt-xs>
   <mat-sidenav  mode="side" #sidenav opened role="navigation">
     <mat-nav-list >
-      <a  mat-list-item *ngFor="let a of paths; let index">{{ a }}</a>
+      <a  mat-list-item *ngFor="let a of pathList; let index">{{ a }}</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <app-navbar></app-navbar>
     {{jsonData && jsonData.openapi}}
     <section style="padding: 10px 25px;">
-      <div *ngFor="let path of paths; let index">
+      <div *ngFor="let path of pathList; let index">
         <div *ngFor="let type of reqType">
           <mat-tab-group  *ngIf="validateReqType(type,path)" style="height: 90vh;">
             <mat-tab label="Overview">

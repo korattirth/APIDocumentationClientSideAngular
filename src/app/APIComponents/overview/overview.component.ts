@@ -32,8 +32,8 @@ export class OverviewComponent implements OnInit {
   }
 
   private showDescrpition() {
-    this.methodName = this.jsonData.paths[this.path][this.reqType].operationId;
-    this.summary = this.jsonData.paths[this.path][this.reqType].summary;
+    this.methodName = this.getData.getMethodDetail(this.path, this.reqType).operationId;
+    this.summary = this.getData.getMethodDetail(this.path, this.reqType).summary;
   }
 
 }

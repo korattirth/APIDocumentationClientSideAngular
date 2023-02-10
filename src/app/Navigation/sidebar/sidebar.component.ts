@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GetRequestType, RequestType } from 'src/app/model/paths';
 import { GetDataService } from 'src/app/service/get-data.service';
 
 @Component({
@@ -8,15 +9,14 @@ import { GetDataService } from 'src/app/service/get-data.service';
 })
 export class SidebarComponent implements OnInit {
   jsonData!: any;
-  paths: string[] = [];
+  pathList: string[] = [];
   reqType: string[] = ['get','post','put','delete'];
-  myDictionary: { [index: string]: any; } = {};
 
   constructor(private getData: GetDataService) {}
 
   ngOnInit(): void {
     this.getData.callAPI();
-    this.getAPIData();
+   this.getAPIData();
   }
 
   private getAPIData() {
@@ -30,16 +30,10 @@ export class SidebarComponent implements OnInit {
   }
 
   private getPath() {
-    this.paths = Object.keys(this.jsonData.paths);
-
-    const obj1: Record<number, string> = Object.assign({}, this.paths);
-    
+    this.pathList = this.getData.getPathList();
   }
 
   validateReqType(reqType: string, path: string) {
-    //if (this.jsonData.paths[path][reqType].parameters != undefined) {
-      //const obj = Object.fromEntries(this.jsonData.paths[path][reqType]?.parameters)
-    //}
-    return reqType in this.jsonData.paths[path] ? true : false
+    return this.getData.getRequestTypeList(path).includes(reqType)
   }
 }

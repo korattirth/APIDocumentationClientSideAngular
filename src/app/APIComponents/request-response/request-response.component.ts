@@ -1,7 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
+//import { Response } from 'src/app/model/paths';
 import {
+  GetResponseContent,
   GetResponseDescription,
+  GetResponseDetails,
   ResponseDescription,
+  Response,
+  ResponseContent,
+  RequestBody,
+  GetRequestBodyContent,
+  GetRequestBodyContentDetail,
 } from 'src/app/model/responseModel';
 import { GetDataService } from 'src/app/service/get-data.service';
 
@@ -19,6 +27,8 @@ export class RequestResponseComponent implements OnInit {
   dataSource: ResponseDescription[] = [];
   responseExample: string = '';
   requestExample: string = '';
+  response!: Response;
+  requestBody!: RequestBody;
 
   constructor(private getData: GetDataService) {}
 
@@ -38,22 +48,20 @@ export class RequestResponseComponent implements OnInit {
   }
 
   private showResponseDescrpition() {
-    if (this.jsonData.paths[this.path][this.reqType].responses !== undefined) {
-      const arr = this.jsonData.paths[this.path][this.reqType].responses;
-      const resCode = Object.keys(arr);
-      resCode.forEach((code) => {
+    this.response = this.getData.getResponse(this.path, this.reqType);
+    if (this.response !== undefined) {
+      const resCode = Object.keys(this.response);
+      resCode.forEach((code: string) => {
+        const responseDetail = new GetResponseDetails(this.response[code])
+          .responseDetail;
         // Get response code and description
         this.responseObject.push(
-          new GetResponseDescription(code, arr[code].description).resObject
+          new GetResponseDescription(responseDetail.description, code).resObject
         );
-        // Response Example
-        if (code.startsWith('2') && arr[code].content) {
-          const contentType = Object.keys(arr[code].content);
-          let useContentType: string = '';
-          contentType.includes('application/json')
-            ? (useContentType = 'application/json')
-            : (useContentType = contentType[0]);
-            this.responseExample = arr[code].content[useContentType].example;
+        const responseContent = new GetResponseContent(responseDetail.content)
+          .responseContent;
+        if (responseContent != undefined) {
+          this.showResponseExample(code, responseContent);
         }
       });
       // Table Data
@@ -61,17 +69,29 @@ export class RequestResponseComponent implements OnInit {
     }
   }
 
-  private showRequestExample() {
-    if (
-      this.jsonData.paths[this.path][this.reqType].requestBody !== undefined
-    ) {
-      const arr = this.jsonData.paths[this.path][this.reqType].requestBody;
-      const contentType = Object.keys(arr.content);
+  private showResponseExample(code: string, responseContent: ResponseContent) {
+    // Response Example
+    if (code.startsWith('2') && responseContent) {
+      const contentType = Object.keys(responseContent);
       let useContentType: string = '';
       contentType.includes('application/json')
         ? (useContentType = 'application/json')
         : (useContentType = contentType[0]);
-      this.requestExample = arr.content[useContentType].example;
+      this.responseExample = responseContent[useContentType].example;
+    }
+  }
+
+  private showRequestExample() {
+    this.requestBody = this.getData.getRequestBody(this.path, this.reqType);
+    if (this.requestBody !== undefined) {
+      const requestBodyContent = new GetRequestBodyContent(this.requestBody['content']).requestBodyContent;
+      const contentType = Object.keys(requestBodyContent);
+      let useContentType: string = '';
+      contentType.includes('application/json')
+      ? (useContentType = 'application/json')
+        : (useContentType = contentType[0]);
+      const bodyContentDetail = new GetRequestBodyContentDetail(requestBodyContent[useContentType]).requestBodyContentDetail;
+      this.requestExample = bodyContentDetail.example
     }
   }
 }

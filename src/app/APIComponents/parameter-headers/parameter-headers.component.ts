@@ -1,24 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GetParameter, Parameter } from 'src/app/model/parameterModel';
+import { Parameter } from 'src/app/model/paths';
 import { GetDataService } from 'src/app/service/get-data.service';
 
 @Component({
   selector: 'app-parameter-headers',
   templateUrl: './parameter-headers.component.html',
-  styleUrls: ['./parameter-headers.component.css']
+  styleUrls: ['./parameter-headers.component.css'],
 })
-  
 export class ParameterHeadersComponent implements OnInit {
-
   jsonData!: any;
   @Input() path: string = '';
   @Input() reqType: string = '';
   parameter: Parameter[] = [];
-  displayedColumns : string[] = ['name', 'required', 'description'];
-  dataSource : Parameter[] = [];
+  displayedColumns: string[] = ['name', 'required', 'description'];
+  dataSource: Parameter[] = [];
 
-  constructor(private getData: GetDataService) { }
-  
+  constructor(private getData: GetDataService) {}
+
   ngOnInit(): void {
     this.getAPIData();
   }
@@ -28,20 +26,15 @@ export class ParameterHeadersComponent implements OnInit {
       next: (res) => (this.jsonData = JSON.parse(res)),
       error: (err) => console.log(err),
       complete: () => {
-        this.showHeadersAndParameters()
+        this.showHeadersAndParameters();
       },
     });
   }
 
   private showHeadersAndParameters() {
-    if (this.jsonData.paths[this.path][this.reqType].parameters != undefined) {
-      const arr = this.jsonData.paths[this.path][this.reqType].parameters;
-
-      arr.forEach((res: Parameter) => {
-        this.parameter.push(new GetParameter(res).parameter);
-      })
+    this.parameter = this.getData.getParameter(this.path, this.reqType);
+    if (this.parameter != undefined) {
       this.dataSource = this.parameter;
     }
   }
-
 }
