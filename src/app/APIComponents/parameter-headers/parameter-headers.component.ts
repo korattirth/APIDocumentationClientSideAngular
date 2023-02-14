@@ -8,7 +8,6 @@ import { GetDataService } from 'src/app/service/get-data.service';
   styleUrls: ['./parameter-headers.component.css'],
 })
 export class ParameterHeadersComponent implements OnInit {
-  jsonData!: any;
   @Input() path: string = '';
   @Input() reqType: string = '';
   parameter: Parameter[] = [];
@@ -18,17 +17,7 @@ export class ParameterHeadersComponent implements OnInit {
   constructor(private getData: GetDataService) {}
 
   ngOnInit(): void {
-    this.getAPIData();
-  }
-
-  private getAPIData() {
-    this.getData.getJsonData().subscribe({
-      next: (res) => (this.jsonData = JSON.parse(res)),
-      error: (err) => console.log(err),
-      complete: () => {
-        this.showHeadersAndParameters();
-      },
-    });
+    this.showHeadersAndParameters();
   }
 
   private showHeadersAndParameters() {

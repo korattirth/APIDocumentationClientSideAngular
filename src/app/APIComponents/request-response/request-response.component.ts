@@ -7,10 +7,9 @@ import {
   Response,
   ResponseContent,
   RequestBody,
-  GetRequestBodyContent,
-  GetRequestBodyContentDetail,
 } from 'src/app/model/response-requestModel';
 import { GetDataService } from 'src/app/service/get-data.service';
+import { requestBodyExample } from 'src/app/util/helper';
 
 @Component({
   selector: 'app-request-response',
@@ -18,7 +17,7 @@ import { GetDataService } from 'src/app/service/get-data.service';
   styleUrls: ['./request-response.component.css'],
 })
 export class RequestResponseComponent implements OnInit {
-  jsonData!: any;
+
   @Input() path: string = '';
   @Input() reqType: string = '';
   responseObject: ResponseDescription[] = [];
@@ -32,18 +31,8 @@ export class RequestResponseComponent implements OnInit {
   constructor(private getData: GetDataService) {}
 
   ngOnInit(): void {
-    this.getAPIData();
-  }
-
-  private getAPIData() {
-    this.getData.getJsonData().subscribe({
-      next: (res) => (this.jsonData = JSON.parse(res)),
-      error: (err) => console.log(err),
-      complete: () => {
-        this.showResponseDescrpition();
-        this.showRequestExample();
-      },
-    });
+    this.showResponseDescrpition();
+    this.showRequestExample();
   }
 
   private showResponseDescrpition() {
@@ -83,14 +72,7 @@ export class RequestResponseComponent implements OnInit {
   private showRequestExample() {
     this.requestBody = this.getData.getRequestBody(this.path, this.reqType);
     if (this.requestBody !== undefined) {
-      const requestBodyContent = new GetRequestBodyContent(this.requestBody['content']).requestBodyContent;
-      const contentType = Object.keys(requestBodyContent);
-      let useContentType: string = '';
-      contentType.includes('application/json')
-      ? (useContentType = 'application/json')
-        : (useContentType = contentType[0]);
-      const bodyContentDetail = new GetRequestBodyContentDetail(requestBodyContent[useContentType]).requestBodyContentDetail;
-      this.requestExample = bodyContentDetail.example
+      this.requestExample = requestBodyExample(this.requestBody);
     }
   }
 }

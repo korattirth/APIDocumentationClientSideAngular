@@ -1,5 +1,8 @@
 .example {
   color: white;
-  background-color: black;
+  background-color: rgb(51, 51, 51);
   margin: 0;
+  font-weight: 600;
+  border-radius: 4px;
+  font-size: 12px;
 }

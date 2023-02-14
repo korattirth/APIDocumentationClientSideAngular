@@ -1,22 +1,22 @@
-<mat-sidenav-container fxHide.lt-xs>
+<app-navbar (menu) ="sidenav.toggle()" #child></app-navbar>
+<mat-sidenav-container>
   <mat-sidenav mode="side" #sidenav opened role="navigation">
     <mat-nav-list>
-      <a mat-list-item></a>
       <div *ngFor="let path of pathList; let i = index">
         <div *ngFor="let type of reqType ; let j = index">
           <div *ngIf="validateReqType(type,path)">
-            <a style="font-weight: 500;" mat-list-item href="#{{i}}{{j}}"><span style="color: white;">{{ getMethodName(path,type) }}</span></a>
+            <a style="font-weight: 500;" mat-list-item (click)="onClickDisplay(i,j,path,type,child)" [ngClass] = "forDisplay(i,j) ? '' : 'bg-danger'"><span style="color: white;">{{ getMethodName(path,type) }}</span></a>
           </div>
         </div>
       </div>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-navbar></app-navbar>
     <section style="padding: 10px 25px;">
       <div *ngFor="let path of pathList; let i = index">
         <div *ngFor="let type of reqType ; let j = index">
-          <mat-tab-group *ngIf="validateReqType(type,path)" id="{{i}}{{j}}" class="content">
+          <mat-tab-group *ngIf="validateReqType(type,path)" id="{{i}}{{j}}"  [ngClass] = "forDisplay(i,j) ? 'd-none' : 'content'">
+            {{firstTime(i,j ,path,type,child)}}
             <mat-tab label="Overview">
               <ng-template matTabContent>
                 <app-overview [path]="path" [reqType]='type'></app-overview>
@@ -34,10 +34,7 @@
             </mat-tab>
             <mat-tab label="Try It Out">
               <ng-template matTabContent>
-                <div fxFlex fxLayout fxLayoutAlign="center center">
-                  <img src="https://www.webinsight.in/wp-content/uploads/2021/09/IMG_20210820_091858.jpg" height="auto"
-                    width="250px" />
-                </div>
+                <app-try-it-out [path]="path" [reqType]='type'></app-try-it-out>
               </ng-template>
             </mat-tab>
           </mat-tab-group>

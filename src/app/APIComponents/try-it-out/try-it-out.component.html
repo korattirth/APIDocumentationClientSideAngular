@@ -1,0 +1,56 @@
+<p class="my-4 fw-bold text-muted">URL : {{baseAPI}}{{path}}</p>
+<!-- <pre *ngIf="requestExample">{{requestExample | json}}</pre> -->
+
+<form *ngIf="requestBody" [formGroup]="tryItOutForm" (ngSubmit)="onSubmit()" autocomplete="off" class="paraForm">
+  <div>
+    <mat-form-field appearance="outline" class="w-100 mt-3">
+      <mat-label>Textarea</mat-label>
+      <textarea formControlName="reqExample" rows="5" matInput></textarea>
+    </mat-form-field>
+  </div>
+  <div>
+    <button class="btn btn-outline-success w-50" [disabled]="!tryItOutForm.valid" type="submit">Execute</button>
+    <button class="btn btn-outline-danger w-50" type="reset" (click)="tryItOutForm.reset()">Clear</button>
+  </div>
+</form>
+
+
+<form *ngIf="parameter" [formGroup]="parameterFrom" (ngSubmit)="onParameterSubmit()" autocomplete="off"
+  class="paraForm">
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let para of parameter">
+          <td>{{para['name']}}</td>
+          <td>
+            <span>{{para['description']}}</span>
+            <mat-form-field appearance="outline" class="w-100 mt-3">
+              <mat-label> {{para['description']}}</mat-label>
+              <input matInput [placeholder]="para['description']" [formControlName]="para['name']">
+              <mat-error>This Filed is required</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <button class="btn btn-outline-success w-50" [disabled]="!parameterFrom.valid" type="submit">Execute</button>
+    <button class="btn btn-outline-danger w-50" type="reset" (click)="parameterFrom.reset()">Clear</button>
+  </div>
+</form>
+
+<div *ngIf="response"
+  style="background-color: '#41444e';color: '#fff';font-weight: 600;border-radius: 4px;font-size: 12px;margin-top: 25px;">
+  <pre>{{response | json}}</pre>
+</div>
+<div *ngIf="error"
+  style="background-color: '#41444e';color: '#fff';font-weight: 600;border-radius: 4px;font-size: 12px;margin-top: 25px;">
+  <pre>{{error | json}}</pre>
+</div>

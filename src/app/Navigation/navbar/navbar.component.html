@@ -1,10 +1,10 @@
 <mat-toolbar style="background-color: #fff;box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%)">
-  <div fxLayout fxHide.gt-xs>
-    <button mat-icon-button>
+  <div fxLayout>
+    <button mat-icon-button (click) = "onClickMenu()">
       <mat-icon>menu</mat-icon>
     </button>
   </div>
-  <div class="navbar-option">API Documantation</div>
+  <div class="navbar-option">API Documantation({{selectedMethoName}})</div>
   <div fxFlex fxLayout fxLayoutAlign="flex-end">
     <span class="navbar-option">Login</span>
   </div>

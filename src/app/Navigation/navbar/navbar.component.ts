@@ -1,4 +1,5 @@
-import { Component , Output , EventEmitter , OnInit } from '@angular/core';
+import { Component , Output , EventEmitter } from '@angular/core';
+import { JsonData } from 'src/app/model/mainModel';
 import { GetDataService } from 'src/app/service/get-data.service';
 
 @Component({
@@ -6,17 +7,16 @@ import { GetDataService } from 'src/app/service/get-data.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent{
 
-  jsonData: any;
+  jsonData!: JsonData;
+
+  @Output() menu = new EventEmitter<void>();
+  selectedMethoName: string = '';
 
   constructor(private getData: GetDataService) { }
-  
-  ngOnInit(): void {
-    this.getData.getJsonData().subscribe({
-      next: res => this.jsonData = JSON.parse(res),
-      error: err => console.log(err),
-      complete : () => console.log(this.jsonData)
-    })
+
+  onClickMenu() {
+    this.menu.emit();
   }
 }

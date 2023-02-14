@@ -9,10 +9,13 @@ mat-sidenav {
   width: 300px;
   background-color: #23395d;
 }
+.mat-drawer-container{
+  background-color: inherit;
+}
 
 .content {
-  height: 86vh;
+  min-height: 85vh;
   background-color: #F0F0F0;
   margin: 15px 0px;
-  padding: 0px 15px;
+  padding: 10px 15px;
 }

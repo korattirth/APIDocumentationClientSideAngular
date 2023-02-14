@@ -1,4 +1,4 @@
-import { Component , OnInit , Input } from '@angular/core';
+import { Component , OnInit , Input , Output } from '@angular/core';
 import { GetDataService } from 'src/app/service/get-data.service';
 
 @Component({
@@ -7,9 +7,9 @@ import { GetDataService } from 'src/app/service/get-data.service';
   styleUrls: ['./overview.component.css']
 })
 export class OverviewComponent implements OnInit {
-  jsonData!: any;
   @Input() path: string = '';
   @Input() reqType: string = '';
+  @Output() selectedMethodName: string = '';
 
   methodName: string = '';
   summary : string = '';
@@ -17,18 +17,7 @@ export class OverviewComponent implements OnInit {
   constructor(private getData: GetDataService) { }
 
   ngOnInit(): void {
-    this.getAPIData();
-    
-  }
-  
-  private getAPIData() {
-    this.getData.getJsonData().subscribe({
-      next: (res) => (this.jsonData = JSON.parse(res)),
-      error: (err) => console.log(err),
-      complete: () => {
-        this.showDescrpition();
-      },
-    });
+    this.showDescrpition();
   }
 
   private showDescrpition() {

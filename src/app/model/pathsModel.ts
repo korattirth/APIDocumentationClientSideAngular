@@ -57,6 +57,13 @@ export interface ParameterDetails {
   schema: ParameterSchema;
 }
 
+export class GetParameterDetail{
+  parameeterDetail: ParameterDetails;
+  constructor(data: ParameterDetails) {
+    this.parameeterDetail = data;
+  }
+}
+
 export interface ParameterSchema {
   nullable: string;
   type: string;
